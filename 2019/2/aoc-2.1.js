@@ -52,7 +52,6 @@ const compute = program => {
         reachedEndOfProgram = true;
         break;
       default:
-        reachedEndOfProgram = true;
         throw new Error('This is not a known sequence:', sequence);
     }
   }
