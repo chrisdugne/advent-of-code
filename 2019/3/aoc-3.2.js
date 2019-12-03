@@ -1,16 +1,22 @@
 // ----------------------------------------------------
-// https://adventofcode.com/2019/day/3
+// https://adventofcode.com/2019/day/3#part2
 // ----------------------------------------------------
 // const testWires = require('./wires-test.json');
+// test1: 30
 // const wire1 = testWires[0];
 // const wire2 = testWires[1];
+
+// test2: 610
 // const wire1 = testWires[2];
 // const wire2 = testWires[3];
+
+// test3: 410
 // const wire1 = testWires[4];
 // const wire2 = testWires[5];
 
 // ----------------------------------------------------
 
+// puzzle | result: 101386
 const wire1 = require('./wire-1.json');
 const wire2 = require('./wire-2.json');
 
@@ -32,7 +38,7 @@ const readInstruction = ([way, ...value]) => ({
   value: parseInt(value.join(''))
 });
 
-const registerPoint = (grid, wireNum, {x, y}) => {
+const registerStep = (grid, wireNum, step, {x, y}) => {
   if (!grid[x]) {
     grid[x] = [];
   }
@@ -45,7 +51,7 @@ const registerPoint = (grid, wireNum, {x, y}) => {
     grid[x][y][wireNum] = 0;
   }
 
-  grid[x][y][wireNum] += 1;
+  grid[x][y][wireNum] = step;
 };
 
 // ----------------------------------------------------
@@ -53,22 +59,23 @@ const registerPoint = (grid, wireNum, {x, y}) => {
 const drawWire = (grid, wire, wireNum) => {
   let cursorX = CENTER_X;
   let cursorY = CENTER_Y;
+  let step = 0;
 
   wire.forEach(instruction => {
     const direction = readInstruction(instruction);
     for (let i = 0; i < direction.value; i++) {
       switch (direction.way) {
         case U:
-          registerPoint(grid, wireNum, {x: cursorX, y: --cursorY});
+          registerStep(grid, wireNum, ++step, {x: cursorX, y: --cursorY});
           break;
         case D:
-          registerPoint(grid, wireNum, {x: cursorX, y: ++cursorY});
+          registerStep(grid, wireNum, ++step, {x: cursorX, y: ++cursorY});
           break;
         case L:
-          registerPoint(grid, wireNum, {x: --cursorX, y: cursorY});
+          registerStep(grid, wireNum, ++step, {x: --cursorX, y: cursorY});
           break;
         case R:
-          registerPoint(grid, wireNum, {x: ++cursorX, y: cursorY});
+          registerStep(grid, wireNum, ++step, {x: ++cursorX, y: cursorY});
           break;
       }
     }
@@ -80,7 +87,8 @@ const findIntersections = grid =>
     if (column) {
       column.forEach((cell, y) => {
         if (Object.keys(cell).length > 1) {
-          intersections.push({x, y});
+          const steps = cell[1] + cell[2];
+          intersections.push({x, y, steps});
         }
       });
     }
@@ -97,13 +105,8 @@ drawWire(GRID, wire2, 2);
 
 const intersections = findIntersections(GRID);
 
-const distances = intersections.map(intersection => {
-  const d = Math.abs(CENTER_X - intersection.x) + Math.abs(CENTER_Y - intersection.y);
-  return d;
-});
-
-console.log(distances);
+console.log(intersections);
 console.log(
   'result:',
-  distances.reduce((acc, d) => Math.min(acc, d), 1000000000)
+  intersections.reduce((acc, intersection) => Math.min(acc, intersection.steps), 1000000000)
 );
