@@ -2,7 +2,7 @@
 // https://adventofcode.com/2019/day/2#part2
 // ---------------------------------------------------------
 
-const PROGRAM = require('./1202-program-alarm.json');
+const PROGRAM = require('./day-2-1202-program-alarm.json');
 
 // ---------------------------------------------------------
 

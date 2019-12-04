@@ -6,7 +6,7 @@
 // const PROGRAM = test;
 // ---------------------------------------------------------
 
-const PROGRAM = require('./1202-program-alarm.json');
+const PROGRAM = require('./day-2-1202-program-alarm.json');
 
 // before running the program,
 // replace position 1 with the value 12

@@ -1,7 +1,7 @@
 // ----------------------------------------------------
 // https://adventofcode.com/2019/day/3#part2
 // ----------------------------------------------------
-// const testWires = require('./wires-test.json');
+// const testWires = require('./wires/wires-test.json');
 // test1: 30
 // const wire1 = testWires[0];
 // const wire2 = testWires[1];
@@ -17,8 +17,8 @@
 // ----------------------------------------------------
 
 // puzzle | result: 101386
-const wire1 = require('./wire-1.json');
-const wire2 = require('./wire-2.json');
+const wire1 = require('./wires/wire-1.json');
+const wire2 = require('./wires/wire-2.json');
 
 // ----------------------------------------------------
 const GRID = [];

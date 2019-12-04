@@ -1,4 +1,4 @@
-const spacecraftModules = require('./spacecraft-modules');
+const spacecraftModules = require('./day-1-spacecraft-modules');
 
 const getFuelRequired = mass => Math.max(Math.floor(mass / 3) - 2, 0);
 
