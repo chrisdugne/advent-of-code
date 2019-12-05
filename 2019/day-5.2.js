@@ -2,7 +2,7 @@ const PROGRAM = require('./day-5-program.json');
 
 // ---------------------------------------------------------
 
-const INPUT = 1;
+const INPUT = 5;
 
 // ---------------------------------------------------------
 
@@ -10,6 +10,10 @@ const ADD = '01';
 const MULT = '02';
 const STORE_INPUT = '03';
 const OUTPUT = '04';
+const JUMP_IF_TRUE = '05';
+const JUMP_IF_FALSE = '06';
+const LESS_THAN = '07';
+const EQUALS = '08';
 const STOP = '99';
 
 const INSTRUCTION_SIZE = {
@@ -17,6 +21,10 @@ const INSTRUCTION_SIZE = {
   [MULT]: 4,
   [STORE_INPUT]: 2,
   [OUTPUT]: 2,
+  [JUMP_IF_TRUE]: 3,
+  [JUMP_IF_FALSE]: 3,
+  [LESS_THAN]: 4,
+  [EQUALS]: 4,
   [STOP]: 1
 };
 
@@ -53,12 +61,12 @@ const compute = program => {
       throw new Error('Found an empty instruction.');
     }
 
-    pointer = pointer + instruction.size;
-
     const modes = [2, 1, 0].map(digit => instruction.digits.slice(digit, digit + 1));
     const values = modes.map((mode, index) =>
       mode === POSITION ? program[instruction.sequence[index + 1]] : instruction.sequence[index + 1]
     );
+
+    let pointerMoved = false;
 
     switch (instruction.opcode) {
       case ADD:
@@ -74,11 +82,33 @@ const compute = program => {
         console.log('OUTPUT !');
         console.log(values[0]);
         break;
+      case JUMP_IF_TRUE:
+        if (values[0] !== 0) {
+          pointer = values[1];
+          pointerMoved = true;
+        }
+        break;
+      case JUMP_IF_FALSE:
+        if (values[0] === 0) {
+          pointer = values[1];
+          pointerMoved = true;
+        }
+        break;
+      case LESS_THAN:
+        program[instruction.sequence[3]] = values[0] < values[1] ? 1 : 0;
+        break;
+      case EQUALS:
+        program[instruction.sequence[3]] = values[0] === values[1] ? 1 : 0;
+        break;
       case STOP:
         reachedEndOfProgram = true;
         break;
       default:
         throw new Error('This is not a known instruction:', instruction);
+    }
+
+    if (!pointerMoved) {
+      pointer = pointer + instruction.size;
     }
   }
 };
