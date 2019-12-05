@@ -22,11 +22,11 @@ const compute = program => {
     const instruction = nextInstruction(program, pointer);
 
     if (!instruction[0]) {
-      throw new Error('Found is an empty instruction.');
+      throw new Error('Found an empty instruction.');
     }
 
     if (instruction[0] !== STOP && instruction.length !== 4) {
-      throw new Error('Found is a bad instruction.', instruction);
+      throw new Error('Found a bad instruction.', instruction);
     }
 
     pointer = pointer + instruction.length;

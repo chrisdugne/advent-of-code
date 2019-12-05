@@ -32,11 +32,11 @@ const compute = program => {
     const sequence = nextSequence(program, cursor);
 
     if (!sequence[0]) {
-      throw new Error('Found is an empty sequence.');
+      throw new Error('Found an empty sequence.');
     }
 
     if (sequence[0] !== STOP && sequence.length !== 4) {
-      throw new Error('Found is a bad sequence.', sequence);
+      throw new Error('Found a bad sequence.', sequence);
     }
 
     cursor = cursor + sequence.length;
