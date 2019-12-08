@@ -2,10 +2,6 @@ const PROGRAM = require('./day-5-program.json');
 
 // ---------------------------------------------------------
 
-const INPUT = 5;
-
-// ---------------------------------------------------------
-
 const ADD = '01';
 const MULT = '02';
 const STORE_INPUT = '03';
@@ -49,7 +45,7 @@ const nextInstruction = (program, pointer) => {
   };
 };
 
-const compute = program => {
+const computer = (input, program) => {
   let reachedEndOfProgram = false;
   let pointer = 0;
 
@@ -79,8 +75,7 @@ const compute = program => {
         program[instruction.sequence[1]] = INPUT;
         break;
       case OUTPUT:
-        console.log('OUTPUT !');
-        console.log(values[0]);
+        return values[0];
         break;
       case JUMP_IF_TRUE:
         if (values[0] !== 0) {
@@ -115,4 +110,9 @@ const compute = program => {
 
 // ---------------------------------------------------------
 
-compute(PROGRAM);
+const INPUT = 5;
+const output = computer(INPUT, PROGRAM);
+console.log('---------------------');
+console.log('result: ', output);
+
+module.export = {computer};
