@@ -1,7 +1,3 @@
-const PROGRAM = require('./day-5-program.json');
-
-// ---------------------------------------------------------
-
 const ADD = '01';
 const MULT = '02';
 const STORE_INPUT = '03';
@@ -45,13 +41,14 @@ const nextInstruction = (program, pointer) => {
   };
 };
 
-const computer = (input, program) => {
+const computer = (inputs, program) => {
   let reachedEndOfProgram = false;
   let pointer = 0;
 
+  const outputs = [];
+
   while (!reachedEndOfProgram) {
     const instruction = nextInstruction(program, pointer);
-    console.log(instruction);
 
     if (!instruction.sequence[0]) {
       throw new Error('Found an empty instruction.');
@@ -59,7 +56,9 @@ const computer = (input, program) => {
 
     const modes = [2, 1, 0].map(digit => instruction.digits.slice(digit, digit + 1));
     const values = modes.map((mode, index) =>
-      mode === POSITION ? program[instruction.sequence[index + 1]] : instruction.sequence[index + 1]
+      mode === POSITION
+        ? parseInt(program[instruction.sequence[index + 1]])
+        : parseInt(instruction.sequence[index + 1])
     );
 
     let pointerMoved = false;
@@ -72,10 +71,10 @@ const computer = (input, program) => {
         program[instruction.sequence[3]] = values[0] * values[1];
         break;
       case STORE_INPUT:
-        program[instruction.sequence[1]] = input;
+        program[instruction.sequence[1]] = inputs.length > 0 ? inputs.shift() : 0;
         break;
       case OUTPUT:
-        return values[0];
+        outputs.push(values[0]);
         break;
       case JUMP_IF_TRUE:
         if (values[0] !== 0) {
@@ -106,12 +105,10 @@ const computer = (input, program) => {
       pointer = pointer + instruction.size;
     }
   }
+
+  return outputs[outputs.length - 1];
 };
 
 // ---------------------------------------------------------
 
-const output = computer(5, PROGRAM);
-console.log('---------------------');
-console.log('result: ', output);
-
-module.exports = {computer};
+module.exports = computer;
