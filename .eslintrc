@@ -7,7 +7,6 @@
     "eslint:recommended"
     // "prettier"
   ],
-  "parser": "babel-eslint",
   "rules": {
     "no-debugger": "off",
     "no-console": "off",
