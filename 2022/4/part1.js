@@ -1,6 +1,6 @@
 import PAIRS from './pairs.json' assert {type: 'json'};
 
-export const isFullyContained = (a, b) => a[0] <= b[0] && (a[1] === undefined ?  a[0] : a[1]) >= b[1]
+export const isFullyContained = (a, b) => a[0] <= b[0] && a[1] >= b[1]
 export const oneFullyContainsTheOther = (a, b) => isFullyContained(a,b) || isFullyContained(b,a)
 
 export const extractPair = (pair) =>
